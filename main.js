@@ -36,12 +36,8 @@ formEl.addEventListener('submit', function(e){
         resetInput();
     }
 })
-/*----------  UUID Generate Function  ----------*/
-function uuidv4() {
-    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
-}
+
+
 /*----------  Check Input Validation  ----------*/
 function validateInput(name, price){
     let isError = false;
@@ -58,7 +54,6 @@ function validateInput(name, price){
         messege.innerText = 'Please Input Product Price.';
         console.log('price')
     }
-
 
     return isError;
 }
@@ -77,7 +72,7 @@ function getInput(){
 
 /*----------  Add Collection To The UI  ----------*/
 function addCollectionItem(items){
-    listGroup.innerHTML = '';
+    listGroup.innerHTML = "";
     items.forEach(item => {
         let listElement = `<li class="list-group-item collection-item id-${item.id}">
                             <strong>${item.name}</strong> - <span class="price">$${item.price}</span>
@@ -106,7 +101,6 @@ function addItemToLocalStorage(product){
 
 
 /*----------  Show Products on DOM Content Loaded  ----------*/
-
 document.addEventListener('DOMContentLoaded', function(){
     if(localStorage.getItem('storeProduct')){
         products = JSON.parse(localStorage.getItem('storeProduct'));
@@ -161,6 +155,13 @@ function showFilterItemToUIFromLocalStorage(filterResult){
     })
 }
 
+
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
 let updatedID;
 /*----------  Delete Item From Collected Product list  ----------*/
 listGroup.addEventListener('click', function(e){
@@ -175,6 +176,7 @@ listGroup.addEventListener('click', function(e){
         removeItemFromLocalStorage(updatedID);
     }else if(currentEditeItem){
         updatedID = getItemID(e.target);
+        console.log(updatedID)
         let foundProduct = products.find(product => product.id == updatedID);
         populateUIInEditeState(foundProduct);
         if(!document.querySelector('.update-product')){
@@ -216,7 +218,7 @@ formEl.addEventListener('click', function(e){
                     return product;
                 }
             })
-            /*----------  Show Updated Items To UI  ----------*/
+           /*----------  Show Updated Items To UI  ----------*/
             addCollectionItem(products);
         }
         addProductBtn.style.display = 'block';
@@ -228,7 +230,7 @@ formEl.addEventListener('click', function(e){
 })  
 
 
-/*----------  Update Item From Local Storage  ----------*/
+/*----------  Update Item To Local Storage  ----------*/
 function updateItemToLocalStorage(){
     if(localStorage.getItem('storeProduct')){
         localStorage.setItem('storeProduct', JSON.stringify(products));
@@ -252,14 +254,5 @@ function removeItemFromLocalStorage(id){
 
 /*----------  Get Item ID  ----------*/
 function getItemID(elem){
-    return elem.parentElement.classList[2].split('-').splice(1).join('-'))
+    return elem.parentElement.classList[2].split('-').splice(1).join('-');
 }
-
-
-
-
-
-
-
-
-
