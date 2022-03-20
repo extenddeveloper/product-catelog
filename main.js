@@ -19,7 +19,7 @@ formEl.addEventListener('submit', function(e){
     let isError = validateInput(nameInput, priceInput);
     
     if(!isError){
-        let id = products.length;
+        let id = uuidv4();
         let product = {
             id: id,
             name: nameInput,
@@ -36,8 +36,12 @@ formEl.addEventListener('submit', function(e){
         resetInput();
     }
 })
-
-
+/*----------  UUID Generate Function  ----------*/
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
 /*----------  Check Input Validation  ----------*/
 function validateInput(name, price){
     let isError = false;
@@ -73,6 +77,7 @@ function getInput(){
 
 /*----------  Add Collection To The UI  ----------*/
 function addCollectionItem(items){
+    listGroup.innerHTML = '';
     items.forEach(item => {
         let listElement = `<li class="list-group-item collection-item id-${item.id}">
                             <strong>${item.name}</strong> - <span class="price">$${item.price}</span>
@@ -247,7 +252,7 @@ function removeItemFromLocalStorage(id){
 
 /*----------  Get Item ID  ----------*/
 function getItemID(elem){
-    return Number(elem.parentElement.classList[2].split('-')[1])
+    return elem.parentElement.classList[2].split('-').splice(1).join('-'))
 }
 
 
